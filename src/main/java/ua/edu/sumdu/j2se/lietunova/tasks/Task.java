@@ -10,10 +10,10 @@ public class Task {
     private  boolean repeated;
 
     /**
-     * Конструктор создает неактивную задачу, которая выполняется один раз.
+     * Конструктор створює неактивне завдання, яке виконується один раз.
      *
-     * @param title название задачи
-     * @param time время выполнения задачи
+     * @param title назва завдання
+     * @param time  час виконання завдання
      */
     public Task(String title, int time) {
         this.title = title;
@@ -22,13 +22,13 @@ public class Task {
     }
 
     /**
-     * Конструктор создает неактивную задачу, которая выполняется в
-     * заданном промежутке времени с заданным интервалом.
+     * Конструктор створює неактивне завдання, яке виконується
+     * заданому проміжку часу із заданим інтервалом.
      *
-     * @param title название задачи
-     * @param start время начала выполнения задачи
-     * @param end время окончания выполнения задачи
-     * @param interval интервал выполнения задачи
+     * @param title назва завдання
+     * @param start час початку виконання завдання
+     * @param end час закінчення виконання завдання
+     * @param interval інтервал виконання завдання
      */
     public Task(String title, int start, int end, int interval) {
         this.title = title;
@@ -39,47 +39,46 @@ public class Task {
     }
 
     /**
-     * Метод возвращает название задачи
+     * Метод повертає назву завдання
      *
-     * @return название задачи
+     * @return назва завдання
      */
     public String getTitle() {
         return title;
     }
 
     /**
-     * Метод устанавливает название задачи
+     * Метод встановлює назву задачі
      *
-     * @param title значение не должно быть пустым или null
+     * @param title значення не повинно бути порожнім або null
      */
     public void setTitle(String title) {
         this.title = title;
     }
 
     /**
-     * Методи для зчитування стану задачі
+     * Метод для зчитування стану задачі
      *
-     * @return стан задачі
+     * @return повертае стан задачі
      */
     public boolean isActive() {
         return active;
     }
 
     /**
-     * Методи для встановлення стану задачі
+     * Метод для встановлення стану задачі
      *
-     * @param active бул знач
+     * @param active булеве значення
      */
     public void setActive(boolean active) {
         this.active = active;
     }
 
     /**
-     * Методи для зчитування часу виконання задачи, що не повторюються
+     * Метод для зчитування часу виконання задачи, що не повторюються
      *
-     * @return повертае час виконання задачи; у разі, якщо задача повторюється метод має повертати час початку
-     * повторення
-
+     * @return повертае час виконання задачи; у разі, якщо задача повторюється
+     * метод повертає час початку повторення
      */
     public int getTime() {
         if (repeated) {
@@ -89,9 +88,10 @@ public class Task {
     }
 
     /**
-     * Методи для зміни часу виконання для задач, що не повторюються
+     * Метод для зміни часу виконання для задач, що не повторюються
      *
-     *  @param time час виконання задачи
+     *  @param time час виконання задачи: у разі, якщо задача повторювалась,
+     *  вона має стати такою, що не повторюється
      */
     public void setTime(int time) {
         this.time = time;
@@ -101,9 +101,10 @@ public class Task {
     }
 
     /**
-     *Методи для зчитування часу виконання задачи, що повторюються
+     * Метод для зчитування начала часу виконання задачи, що повторюються
      *
-     * @return повертае час виконання задачи
+     * @return повертае час начала виконання задачи; у разі, якщо
+     * задача не повторюється метод повертає час виконання задачі
      */
     public int getStartTime() {
         if (repeated) {
@@ -113,8 +114,10 @@ public class Task {
     }
 
     /**
+     * Метод для зчитування закінчення часу виконання задачи, що повторюються
      *
-     * @return
+     * @return повертае час закінчення виконання задачи; у разі, якщо
+     * задача не повторюється метод повертає час виконання задачі
      */
     public int getEndTime() {
         if (repeated) {
@@ -124,8 +127,10 @@ public class Task {
     }
 
     /**
+     * Метод для зчитування інтервалу
      *
-     * @return
+     * @return повертае інтервал, у разі, якщо задача
+     * не повторюється метод повертає 0
      */
     public int getRepeatInterval() {
         if (repeated) {
@@ -135,13 +140,14 @@ public class Task {
     }
 
     /**
+     * Метод для зміни часу виконання для задач, що повторюються
      *
-     * @param time
-     * @param end
-     * @param interval
+     * @param start    час початку виконання завдання
+     * @param end      час закінчення виконання завдання
+     * @param interval інтервал виконання завдання
      */
-    public void setTime(int time, int end, int interval) {
-        this.time = time;
+    public void setTime(int start, int end, int interval) {
+        this.startTime = start;
         this.endTime = end;
         this.repeatInterval = interval;
         if (!repeated) {
@@ -152,34 +158,38 @@ public class Task {
     /**
      * Метод для перевірки повторюваності задачі
      *
-     * @return
+     * @return повертає булеве значення
      */
     public boolean isRepeated() {
         return repeated;
     }
 
     /**
+     * Метод знаходження наступного моменту виконання задачі
      *
-     * @param current
-     * @return
+     * @param current вказаний час
+     * @return повертає час наступного виконання задачі;
+     * якщо після вказаного часу задача не виконується, то
+     * метод повертає -1
+     *
      */
     public int nextTimeAfter(int current){
         if (active) {
             if (repeated) {
-                    int nextStartTime = startTime;
-                    while (current >= nextStartTime) {
-                        nextStartTime += repeatInterval;
-                        if (nextStartTime > endTime){
-                            return -1;
-                        }
+                int nextStartTime = startTime;
+                while (current >= nextStartTime) {
+                    nextStartTime += repeatInterval;
+                    if (nextStartTime > endTime){
+                        return -1;
                     }
-                    return nextStartTime;
+                }
+                return nextStartTime;
 
             } else {
                 if (current >= time){
                     return -1;
                 }
-               return time;
+                return time;
             }
         }
         return -1;
