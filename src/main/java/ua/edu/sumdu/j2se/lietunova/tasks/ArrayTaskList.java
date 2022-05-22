@@ -12,15 +12,6 @@ public class ArrayTaskList {
 
     public boolean remove(Task task) {
         return arrayTaskLists.remove(task);
-
-
-/*        for (int i = 0; i < arrayTaskLists.size(); i++) {
-            if (arrayTaskLists.get(i).equals(task)) {
-                arrayTaskLists.remove(i);
-                return true;
-            }
-        }
-        return false;*/
     }
 
     public int size() {
