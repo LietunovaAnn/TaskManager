@@ -6,8 +6,8 @@ public class Task {
     private int startTime;
     private int endTime;
     private int repeatInterval;
-    private  boolean active;
-    private  boolean repeated;
+    private boolean active;
+    private boolean repeated;
 
     /**
      * Конструктор створює неактивне завдання, яке виконується один раз.
@@ -25,9 +25,9 @@ public class Task {
      * Конструктор створює неактивне завдання, яке виконується
      * заданому проміжку часу із заданим інтервалом.
      *
-     * @param title назва завдання
-     * @param start час початку виконання завдання
-     * @param end час закінчення виконання завдання
+     * @param title    назва завдання
+     * @param start    час початку виконання завдання
+     * @param end      час закінчення виконання завдання
      * @param interval інтервал виконання завдання
      */
     public Task(String title, int start, int end, int interval) {
@@ -81,6 +81,9 @@ public class Task {
      * метод повертає час початку повторення
      */
     public int getTime() {
+        if (!active) {
+            return -1;
+        }
         if (repeated) {
             return startTime;
         }
@@ -90,8 +93,8 @@ public class Task {
     /**
      * Метод для зміни часу виконання для задач, що не повторюються
      *
-     *  @param time час виконання задачи: у разі, якщо задача повторювалась,
-     *  вона має стати такою, що не повторюється
+     * @param time час виконання задачи: у разі, якщо задача повторювалась,
+     *             вона має стати такою, що не повторюється
      */
     public void setTime(int time) {
         this.time = time;
@@ -171,22 +174,21 @@ public class Task {
      * @return повертає час наступного виконання задачі;
      * якщо після вказаного часу задача не виконується, то
      * метод повертає -1
-     *
      */
-    public int nextTimeAfter(int current){
+    public int nextTimeAfter(int current) {
         if (active) {
             if (repeated) {
                 int nextStartTime = startTime;
                 while (current >= nextStartTime) {
                     nextStartTime += repeatInterval;
-                    if (nextStartTime > endTime){
+                    if (nextStartTime > endTime) {
                         return -1;
                     }
                 }
                 return nextStartTime;
 
             } else {
-                if (current >= time){
+                if (current >= time) {
                     return -1;
                 }
                 return time;
