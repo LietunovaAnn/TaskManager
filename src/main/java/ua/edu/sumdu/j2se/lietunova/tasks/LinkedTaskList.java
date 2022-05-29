@@ -1,7 +1,7 @@
 package ua.edu.sumdu.j2se.lietunova.tasks;
 
 
-public class LinkedTaskList {
+public class LinkedTaskList extends AbstractTaskList {
     private Node first;
     private Node last;
     private int sizeList = 0;
@@ -25,10 +25,6 @@ public class LinkedTaskList {
             last = newNode;
             newNode = n;
 
-//            Node prelast = new Node(last.task, last.previous);
-//            last = newNode;
-//            prelast.next = newNode;
-//            last.previous = prelast;
         }
         sizeList++;
     }
