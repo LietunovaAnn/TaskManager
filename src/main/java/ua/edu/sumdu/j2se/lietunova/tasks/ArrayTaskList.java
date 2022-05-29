@@ -10,6 +10,9 @@ public class ArrayTaskList {
 
 
     public void add(Task task) {
+        if (task == null) {
+            throw new NullPointerException("Task can't be null!!!");
+        }
         if (sizeArray == 0) {
             arrayTaskLists = new Task[sizeArray + 1];
             arrayTaskLists[0] = task;
@@ -21,6 +24,9 @@ public class ArrayTaskList {
     }
 
     public boolean remove(Task task) {
+        if (task == null) {
+            throw new NullPointerException("Task can't be null!!!");
+        }
         for (int i = 0; i < arrayTaskLists.length; i++) {
             if (arrayTaskLists[i].equals(task)) {
                 arrayTaskLists = ArrayUtils.removeElement(arrayTaskLists, arrayTaskLists[i]);
@@ -36,10 +42,16 @@ public class ArrayTaskList {
     }
 
     public Task getTask(int index) {
+        if (index >= sizeArray || index < 0) {
+            throw new IndexOutOfBoundsException("Index cannot be >= size array or negative!!");
+        }
         return arrayTaskLists[index];
     }
 
     public ArrayTaskList incoming(int from, int to) {
+        if (from < 0 || to < 0) {
+            throw new IllegalArgumentException("Time (from, to) cannot be negative!");
+        }
         ArrayTaskList arrayIncoming = new ArrayTaskList();
         for (int i = 0; i < arrayTaskLists.length; i++) {
             if (arrayTaskLists[i].getTime() > from && arrayTaskLists[i].getTime() < to) {

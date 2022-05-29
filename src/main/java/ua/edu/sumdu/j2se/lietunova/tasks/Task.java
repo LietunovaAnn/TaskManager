@@ -16,6 +16,12 @@ public class Task {
      * @param time  час виконання завдання
      */
     public Task(String title, int time) {
+        if (title == null) {
+            throw new NullPointerException("Parameter title cannot be null!");
+        }
+        if (time < 0) {
+            throw new IllegalArgumentException("Time cannot be negative!");
+        }
         this.title = title;
         this.time = time;
         repeated = false;
@@ -31,6 +37,15 @@ public class Task {
      * @param interval інтервал виконання завдання
      */
     public Task(String title, int start, int end, int interval) {
+        if (title == null) {
+            throw new NullPointerException("Parameter title cannot be null!");
+        }
+        if (start < 0 || end < 0) {
+            throw new IllegalArgumentException("Time (start, end) cannot be negative!");
+        }
+        if (interval <= 0) {
+            throw new IllegalArgumentException("Interval have to be >= 0!");
+        }
         this.title = title;
         this.startTime = start;
         this.endTime = end;
@@ -53,6 +68,9 @@ public class Task {
      * @param title значення не повинно бути порожнім або null
      */
     public void setTitle(String title) {
+        if (title == null) {
+            throw new NullPointerException("Parameter title cannot be null!");
+        }
         this.title = title;
     }
 
@@ -97,6 +115,9 @@ public class Task {
      *             вона має стати такою, що не повторюється
      */
     public void setTime(int time) {
+        if (time < 0) {
+            throw new IllegalArgumentException("Time cannot be negative!");
+        }
         this.time = time;
         if (repeated) {
             repeated = false;
@@ -150,6 +171,12 @@ public class Task {
      * @param interval інтервал виконання завдання
      */
     public void setTime(int start, int end, int interval) {
+        if (start < 0 || end < 0) {
+            throw new IllegalArgumentException("Time (start, end) cannot be negative!");
+        }
+        if (interval <= 0) {
+            throw new IllegalArgumentException("Interval have to be >= 0!");
+        }
         this.startTime = start;
         this.endTime = end;
         this.repeatInterval = interval;
@@ -176,6 +203,9 @@ public class Task {
      * метод повертає -1
      */
     public int nextTimeAfter(int current) {
+        if (current < 0) {
+            throw new IllegalArgumentException("Parameter current cannot be negative!");
+        }
         if (active) {
             if (repeated) {
                 int nextStartTime = startTime;
