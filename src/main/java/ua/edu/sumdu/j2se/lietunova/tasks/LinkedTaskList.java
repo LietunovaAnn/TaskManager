@@ -24,11 +24,6 @@ public class LinkedTaskList {
             Node n = last;
             last = newNode;
             newNode = n;
-
-//            Node prelast = new Node(last.task, last.previous);
-//            last = newNode;
-//            prelast.next = newNode;
-//            last.previous = prelast;
         }
         sizeList++;
     }
