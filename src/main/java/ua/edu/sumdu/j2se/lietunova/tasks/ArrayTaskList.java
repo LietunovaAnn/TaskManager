@@ -4,11 +4,11 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Arrays;
 
-public class ArrayTaskList {
+public class ArrayTaskList extends AbstractTaskList {
     private Task[] arrayTaskLists;
     private int sizeArray;
 
-
+    @Override
     public void add(Task task) {
         if (task == null) {
             throw new NullPointerException("Task can't be null!!!");
@@ -23,6 +23,7 @@ public class ArrayTaskList {
         sizeArray++;
     }
 
+    @Override
     public boolean remove(Task task) {
         if (task == null) {
             throw new NullPointerException("Task can't be null!!!");
@@ -37,10 +38,12 @@ public class ArrayTaskList {
         return false;
     }
 
+    @Override
     public int size() {
         return sizeArray;
     }
 
+    @Override
     public Task getTask(int index) {
         if (index >= sizeArray || index < 0) {
             throw new IndexOutOfBoundsException("Index cannot be >= size array or negative!!");
@@ -48,6 +51,7 @@ public class ArrayTaskList {
         return arrayTaskLists[index];
     }
 
+    @Override
     public ArrayTaskList incoming(int from, int to) {
         if (from < 0 || to < 0) {
             throw new IllegalArgumentException("Time (from, to) cannot be negative!");
