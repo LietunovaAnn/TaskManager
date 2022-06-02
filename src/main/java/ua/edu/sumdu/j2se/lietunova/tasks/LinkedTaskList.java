@@ -1,11 +1,10 @@
 package ua.edu.sumdu.j2se.lietunova.tasks;
-
-
-public class LinkedTaskList {
+public class LinkedTaskList extends AbstractTaskList {
     private Node first;
     private Node last;
     private int sizeList = 0;
 
+    @Override
     public void add(Task task) {
         if (task == null) {
             throw new NullPointerException("Task can't be null!!!");
@@ -28,6 +27,7 @@ public class LinkedTaskList {
         sizeList++;
     }
 
+    @Override
     public boolean remove(Task task) {
         if (task == null) {
             throw new NullPointerException("Task can't be null!!!");
@@ -59,10 +59,12 @@ public class LinkedTaskList {
         return false;
     }
 
+    @Override
     public int size() {
         return sizeList;
     }
 
+    @Override
     public Task getTask(int index) {
         if (index >= sizeList || index < 0) {
             throw new IndexOutOfBoundsException("Index cannot be >= size array or negative!!");
@@ -82,6 +84,7 @@ public class LinkedTaskList {
         return current.task;
     }
 
+    @Override
     public LinkedTaskList incoming(int from, int to) {
         if (from < 0 || to < 0) {
             throw new IllegalArgumentException("Time (from, to) cannot be negative!");
