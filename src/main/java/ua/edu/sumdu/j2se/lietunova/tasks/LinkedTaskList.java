@@ -1,8 +1,17 @@
 package ua.edu.sumdu.j2se.lietunova.tasks;
+
+import java.util.Iterator;
+import java.util.Objects;
+
 public class LinkedTaskList extends AbstractTaskList {
     private Node first;
     private Node last;
     private int sizeList = 0;
+
+    @Override
+    public ListTypes.types getType() {
+        return ListTypes.types.LINKED;
+    }
 
     @Override
     public void add(Task task) {
@@ -22,7 +31,6 @@ public class LinkedTaskList extends AbstractTaskList {
             newNode.previous = last;
             Node n = last;
             last = newNode;
-            newNode = n;
         }
         sizeList++;
     }
@@ -85,19 +93,52 @@ public class LinkedTaskList extends AbstractTaskList {
     }
 
     @Override
-    public LinkedTaskList incoming(int from, int to) {
-        if (from < 0 || to < 0) {
-            throw new IllegalArgumentException("Time (from, to) cannot be negative!");
+    public Iterator<Task> iterator() {
+
+        return new ListIterator(first);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Node a = first;
+        Node b = ((LinkedTaskList) o).first;
+        if (this.size() != ((LinkedTaskList) o).size()) {
+            return false;
         }
-        LinkedTaskList linkedTaskIncoming = new LinkedTaskList();
-        Node current = first;
-        for (int i = 0; i < sizeList; i++) {
-            if (current.task.getTime() > from && current.task.getTime() < to) {
-                linkedTaskIncoming.add(current.task);
+        for (int i = 0; i < size(); i++) {
+            if (!(Objects.equals(a, b))) {
+                return false;
             }
-            current = current.next;
+            a = a.next;
+            b = b.next;
         }
-        return linkedTaskIncoming;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), first, last, sizeList);
+    }
+
+    @Override
+    public LinkedTaskList clone() throws CloneNotSupportedException {
+        LinkedTaskList result = (LinkedTaskList) super.clone();
+
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder("LinkedTaskList{");
+        Node elem = first;
+
+        for (int i = 0; i < size(); i++) {
+            result.append(elem.toString());
+            elem = elem.next;
+        }
+        return result.toString();
     }
 
     private static class Node {
@@ -109,10 +150,55 @@ public class LinkedTaskList extends AbstractTaskList {
             this.task = task;
         }
 
-        public Node(Task task, Node previous) {
-            this.task = task;
-            this.previous = previous;
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Node node = (Node) o;
+            return Objects.equals(task, node.task);
+        }
+
+        @Override
+        public String toString() {
+            return "Node{" +
+                    "task=" + task +
+                    '}';
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(task, next, previous);
         }
     }
 
+    private class ListIterator implements Iterator<Task> {
+        private Node nextNode;
+        private int positionIterator = 0;
+
+        public ListIterator(Node first) {
+            nextNode = first;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return positionIterator < sizeList && sizeList != 0;
+        }
+
+        @Override
+        public Task next() {
+            Task task = nextNode.task;
+            nextNode = nextNode.next;
+            positionIterator++;
+            return task;
+        }
+
+        @Override
+        public void remove() {
+            if (positionIterator == 0) {
+                throw new IllegalStateException();
+            }
+            LinkedTaskList.this.remove(nextNode.previous.task);
+            positionIterator--;
+        }
+    }
 }

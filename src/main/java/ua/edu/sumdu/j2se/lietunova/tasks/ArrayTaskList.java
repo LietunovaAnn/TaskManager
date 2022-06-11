@@ -3,10 +3,18 @@ package ua.edu.sumdu.j2se.lietunova.tasks;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Objects;
+
 
 public class ArrayTaskList extends AbstractTaskList {
     private Task[] arrayTaskLists;
     private int sizeArray;
+
+    @Override
+    public ListTypes.types getType() {
+        return ListTypes.types.ARRAY;
+    }
 
     @Override
     public void add(Task task) {
@@ -52,18 +60,68 @@ public class ArrayTaskList extends AbstractTaskList {
     }
 
     @Override
-    public ArrayTaskList incoming(int from, int to) {
-        if (from < 0 || to < 0) {
-            throw new IllegalArgumentException("Time (from, to) cannot be negative!");
-        }
-        ArrayTaskList arrayIncoming = new ArrayTaskList();
-        for (int i = 0; i < arrayTaskLists.length; i++) {
-            if (arrayTaskLists[i].getTime() > from && arrayTaskLists[i].getTime() < to) {
-                arrayIncoming.add(arrayTaskLists[i]);
+    public Iterator<Task> iterator() {
+        Iterator<Task> taskIterator = new Iterator<Task>() {
+
+            private int position = 0;
+            private int current = -1;
+
+            @Override
+            public boolean hasNext() {
+                return position < sizeArray;
             }
-        }
-        return arrayIncoming;
+
+            @Override
+            public void remove() {
+                if (current < 0) {
+                    throw new IllegalStateException();
+                }
+                ArrayTaskList.this.remove(getTask(current));
+                position--;
+                current = -1;
+            }
+
+            @Override
+            public Task next() throws IndexOutOfBoundsException {
+                current = position;
+                return arrayTaskLists[position++];
+
+            }
+        };
+        return taskIterator;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ArrayTaskList tasks = (ArrayTaskList) o;
+        return sizeArray == tasks.sizeArray && Arrays.equals(arrayTaskLists, tasks.arrayTaskLists);
+    }
 
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(sizeArray);
+        result = 31 * result + Arrays.hashCode(arrayTaskLists);
+        return result;
+    }
+
+    @Override
+    public ArrayTaskList clone() {
+        try {
+            ArrayTaskList result = (ArrayTaskList) super.clone();
+            result.arrayTaskLists = arrayTaskLists.clone();
+            return result;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "ArrayTaskList{" +
+                "arrayTaskLists=" + Arrays.toString(arrayTaskLists) +
+                ", sizeArray=" + sizeArray +
+                '}';
+    }
 }
