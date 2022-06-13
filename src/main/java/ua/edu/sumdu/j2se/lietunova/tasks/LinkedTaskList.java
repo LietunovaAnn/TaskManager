@@ -2,11 +2,21 @@ package ua.edu.sumdu.j2se.lietunova.tasks;
 
 import java.util.Iterator;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 public class LinkedTaskList extends AbstractTaskList {
     private Node first;
     private Node last;
     private int sizeList = 0;
+
+    @Override
+    public Stream<Task> getStream() {
+        Stream.Builder<Task> builder = Stream.builder();
+        for (int i = 0; i < size(); i++) {
+            builder.add(getTask(i));
+        }
+        return builder.build();
+    }
 
     @Override
     public ListTypes.types getType() {
@@ -94,7 +104,6 @@ public class LinkedTaskList extends AbstractTaskList {
 
     @Override
     public Iterator<Task> iterator() {
-
         return new ListIterator(first);
     }
 
@@ -125,7 +134,6 @@ public class LinkedTaskList extends AbstractTaskList {
     @Override
     public LinkedTaskList clone() throws CloneNotSupportedException {
         LinkedTaskList result = (LinkedTaskList) super.clone();
-
         return result;
     }
 
