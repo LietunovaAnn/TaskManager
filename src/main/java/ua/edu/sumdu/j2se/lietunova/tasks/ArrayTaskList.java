@@ -5,6 +5,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 
 public class ArrayTaskList extends AbstractTaskList {
@@ -89,6 +90,11 @@ public class ArrayTaskList extends AbstractTaskList {
             }
         };
         return taskIterator;
+    }
+
+    @Override
+    public Stream<Task> getStream() {
+        return Arrays.stream(arrayTaskLists);
     }
 
     @Override
