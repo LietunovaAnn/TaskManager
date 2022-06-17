@@ -1,6 +1,8 @@
 package ua.edu.sumdu.j2se.lietunova.tasks;
 
-public class Task {
+import java.util.Objects;
+
+public class Task implements Cloneable {
     private String title;
     private int time;
     private int startTime;
@@ -99,9 +101,6 @@ public class Task {
      * метод повертає час початку повторення
      */
     public int getTime() {
-        if (!active) {
-            return -1;
-        }
         if (repeated) {
             return startTime;
         }
@@ -226,4 +225,46 @@ public class Task {
         }
         return -1;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        if (repeated) {
+            return startTime == task.startTime && endTime == task.endTime &&
+                    repeatInterval == task.repeatInterval && Objects.equals(title, task.title);
+        }
+        return time == task.time && Objects.equals(title, task.title);
+    }
+
+    @Override
+    public int hashCode() {
+        if (repeated) {
+            return Objects.hash(title, startTime, endTime, repeatInterval);
+        }
+        return Objects.hash(title, time);
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
+    @Override
+    public String toString() {
+        if (repeated) {
+            return "Task{" +
+                    "title='" + title + '\'' +
+                    ", startTime=" + startTime +
+                    ", endTime=" + endTime +
+                    ", repeatInterval=" + repeatInterval +
+                    '}';
+        }
+        return "Task{" +
+                "title='" + title + '\'' +
+                ", time=" + time +
+                '}';
+    }
+
 }
