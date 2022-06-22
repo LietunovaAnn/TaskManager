@@ -15,15 +15,4 @@ public abstract class AbstractTaskList implements Iterable<Task>, Cloneable {
 
     public abstract Task getTask(int index);
 
-    public final AbstractTaskList incoming(int from, int to) throws IllegalArgumentException {
-        if (from < 0 || to < 0) {
-            throw new IllegalArgumentException("Time (from, to) cannot be negative!");
-        }
-        AbstractTaskList taskList = TaskListFactory.createTaskList(getType());
-        getStream()
-                .filter(task -> (task != null) && (task.nextTimeAfter(from) != -1) && (task.nextTimeAfter(from) < to))
-                .forEach(taskList::add);
-
-        return taskList;
-    }
 }
