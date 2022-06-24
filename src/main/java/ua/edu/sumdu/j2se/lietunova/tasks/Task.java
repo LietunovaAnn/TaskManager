@@ -1,12 +1,13 @@
 package ua.edu.sumdu.j2se.lietunova.tasks;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task implements Cloneable {
     private String title;
-    private int time;
-    private int startTime;
-    private int endTime;
+    private LocalDateTime time;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private int repeatInterval;
     private boolean active;
     private boolean repeated;
@@ -17,12 +18,12 @@ public class Task implements Cloneable {
      * @param title назва завдання
      * @param time  час виконання завдання
      */
-    public Task(String title, int time) {
+    public Task(String title, LocalDateTime time) {
         if (title == null) {
             throw new NullPointerException("Parameter title cannot be null!");
         }
-        if (time < 0) {
-            throw new IllegalArgumentException("Time cannot be negative!");
+        if (time == null) {
+            throw new IllegalArgumentException("Parameter time cannot be null!");
         }
         this.title = title;
         this.time = time;
@@ -38,12 +39,9 @@ public class Task implements Cloneable {
      * @param end      час закінчення виконання завдання
      * @param interval інтервал виконання завдання
      */
-    public Task(String title, int start, int end, int interval) {
-        if (title == null) {
-            throw new NullPointerException("Parameter title cannot be null!");
-        }
-        if (start < 0 || end < 0) {
-            throw new IllegalArgumentException("Time (start, end) cannot be negative!");
+    public Task(String title, LocalDateTime start, LocalDateTime end, int interval) {
+        if (title == null || start == null || end == null) {
+            throw new NullPointerException("Parameter title or time (start, end) cannot be null!");
         }
         if (interval <= 0) {
             throw new IllegalArgumentException("Interval have to be >= 0!");
@@ -100,7 +98,7 @@ public class Task implements Cloneable {
      * @return повертае час виконання задачи; у разі, якщо задача повторюється
      * метод повертає час початку повторення
      */
-    public int getTime() {
+    public LocalDateTime getTime() {
         if (repeated) {
             return startTime;
         }
@@ -113,9 +111,9 @@ public class Task implements Cloneable {
      * @param time час виконання задачи: у разі, якщо задача повторювалась,
      *             вона має стати такою, що не повторюється
      */
-    public void setTime(int time) {
-        if (time < 0) {
-            throw new IllegalArgumentException("Time cannot be negative!");
+    public void setTime(LocalDateTime time) {
+        if (time == null) {
+            throw new IllegalArgumentException("Time cannot be null!");
         }
         this.time = time;
         if (repeated) {
@@ -129,7 +127,7 @@ public class Task implements Cloneable {
      * @return повертае час начала виконання задачи; у разі, якщо
      * задача не повторюється метод повертає час виконання задачі
      */
-    public int getStartTime() {
+    public LocalDateTime getStartTime() {
         if (repeated) {
             return startTime;
         }
@@ -142,7 +140,7 @@ public class Task implements Cloneable {
      * @return повертае час закінчення виконання задачи; у разі, якщо
      * задача не повторюється метод повертає час виконання задачі
      */
-    public int getEndTime() {
+    public LocalDateTime getEndTime() {
         if (repeated) {
             return endTime;
         }
@@ -169,9 +167,9 @@ public class Task implements Cloneable {
      * @param end      час закінчення виконання завдання
      * @param interval інтервал виконання завдання
      */
-    public void setTime(int start, int end, int interval) {
-        if (start < 0 || end < 0) {
-            throw new IllegalArgumentException("Time (start, end) cannot be negative!");
+    public void setTime(LocalDateTime start, LocalDateTime end, int interval) {
+        if (start == null || end == null) {
+            throw new IllegalArgumentException("Time (start, end) cannot be null!");
         }
         if (interval <= 0) {
             throw new IllegalArgumentException("Interval have to be >= 0!");
@@ -199,31 +197,31 @@ public class Task implements Cloneable {
      * @param current вказаний час
      * @return повертає час наступного виконання задачі;
      * якщо після вказаного часу задача не виконується, то
-     * метод повертає -1
+     * метод повертає null
      */
-    public int nextTimeAfter(int current) {
-        if (current < 0) {
-            throw new IllegalArgumentException("Parameter current cannot be negative!");
+    public LocalDateTime nextTimeAfter(LocalDateTime current) {
+        if (current == null) {
+            throw new NullPointerException("Parameter current cannot be null!");
         }
         if (active) {
             if (repeated) {
-                int nextStartTime = startTime;
-                while (current >= nextStartTime) {
-                    nextStartTime += repeatInterval;
-                    if (nextStartTime > endTime) {
-                        return -1;
+                LocalDateTime nextStartTime = startTime;
+                while (current.isAfter(nextStartTime) || current.isEqual(nextStartTime)) {
+                    nextStartTime = nextStartTime.plusSeconds(repeatInterval);
+                    if (nextStartTime.isAfter(endTime)) {
+                        return null;
                     }
                 }
                 return nextStartTime;
 
             } else {
-                if (current >= time) {
-                    return -1;
+                if (current.isBefore(time)) {
+                    return time;
                 }
-                return time;
+                return null;
             }
         }
-        return -1;
+        return null;
     }
 
     @Override
@@ -232,7 +230,7 @@ public class Task implements Cloneable {
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
         if (repeated) {
-            return startTime == task.startTime && endTime == task.endTime &&
+            return startTime.isEqual(task.startTime) && endTime.isEqual(task.endTime) &&
                     repeatInterval == task.repeatInterval && Objects.equals(title, task.title);
         }
         return time == task.time && Objects.equals(title, task.title);
