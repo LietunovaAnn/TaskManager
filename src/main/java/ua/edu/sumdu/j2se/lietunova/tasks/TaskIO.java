@@ -6,7 +6,7 @@ import java.io.*;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
-public class TaskIO implements Serializable {
+public class TaskIO {
     /**
      * Метод записує задачі із списку у потік у бінарному форматі.
      */
