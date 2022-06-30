@@ -1,9 +1,10 @@
 package ua.edu.sumdu.j2se.lietunova.tasks;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Task implements Cloneable {
+public class Task implements Cloneable, Serializable {
     private String title;
     private LocalDateTime time;
     private LocalDateTime startTime;
@@ -19,11 +20,11 @@ public class Task implements Cloneable {
      * @param time  час виконання завдання
      */
     public Task(String title, LocalDateTime time) {
+        if (time == null) {
+            throw new IllegalArgumentException("Parameter  time cannot be null!");
+        }
         if (title == null) {
             throw new NullPointerException("Parameter title cannot be null!");
-        }
-        if (time == null) {
-            throw new IllegalArgumentException("Parameter time cannot be null!");
         }
         this.title = title;
         this.time = time;
