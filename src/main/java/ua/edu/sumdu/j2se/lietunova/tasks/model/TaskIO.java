@@ -1,4 +1,4 @@
-package ua.edu.sumdu.j2se.lietunova.tasks;
+package ua.edu.sumdu.j2se.lietunova.tasks.model;
 
 import com.google.gson.Gson;
 
@@ -32,6 +32,7 @@ public class TaskIO {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
 
     }
 
@@ -67,7 +68,7 @@ public class TaskIO {
      * Метод записує задачі із списку у файл.
      */
     public static void writeBinary(AbstractTaskList tasks, File file) throws IOException {
-        try (FileOutputStream fos = new FileOutputStream(file)) {
+        try (FileOutputStream fos = new FileOutputStream(file, true)) {
             write(tasks, fos);
         } catch (IOException e) {
             e.printStackTrace();
@@ -120,7 +121,7 @@ public class TaskIO {
      * Метод записує задачі у файл у форматі JSON
      */
     public static void writeText(AbstractTaskList tasks, File file) {
-        try (FileWriter fw = new FileWriter(file)) {
+        try (FileWriter fw = new FileWriter(file, true)) {
             write(tasks, fw);
         } catch (IOException e) {
             e.printStackTrace();

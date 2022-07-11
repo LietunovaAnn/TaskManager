@@ -1,7 +1,12 @@
-package ua.edu.sumdu.j2se.lietunova.tasks;
+package ua.edu.sumdu.j2se.lietunova.tasks.model;
+
+import ua.edu.sumdu.j2se.lietunova.tasks.model.exception.WrongArgumentException;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 
 public class Tasks {
@@ -10,7 +15,7 @@ public class Tasks {
             throw new NullPointerException("Time (start, end) cannot be null!");
         }
         if (start.compareTo(end) > 0) {
-            throw new IllegalArgumentException(start + " after " + end);
+            throw new WrongArgumentException();
         }
 
         Collection<Task> taskCollection = new LinkedList();
@@ -22,21 +27,22 @@ public class Tasks {
         return taskCollection;
     }
 
-    public static SortedMap<LocalDateTime, Set<Task>> calendar(Iterable<Task> tasks, LocalDateTime start, LocalDateTime end) {
+    public static SortedMap<LocalDateTime, ArrayTaskList> calendar(Iterable<Task> tasks, LocalDateTime start, LocalDateTime end) {
         if (start == null || end == null) {
             throw new NullPointerException("Time (start, end) cannot be null!");
         }
         if (start.compareTo(end) > 0) {
             throw new IllegalArgumentException(start + " after " + end);
         }
-        SortedMap<LocalDateTime, Set<Task>> sortedMap = new TreeMap<>();
+
+        SortedMap<LocalDateTime, ArrayTaskList> sortedMap = new TreeMap<>();
         for (Task t : tasks) {
             LocalDateTime nextTime = t.nextTimeAfter(start);
             while (nextTime != null && !nextTime.isAfter(end)) {
                 if (!sortedMap.containsKey(nextTime)) {
-                    Set<Task> taskSet = new HashSet<>();
-                    taskSet.add(t);
-                    sortedMap.put(nextTime, taskSet);
+                    ArrayTaskList taskList = new ArrayTaskList();
+                    taskList.add(t);
+                    sortedMap.put(nextTime, taskList);
                 } else {
                     sortedMap.get(nextTime).add(t);
                 }

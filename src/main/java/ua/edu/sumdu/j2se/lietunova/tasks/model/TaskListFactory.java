@@ -1,4 +1,4 @@
-package ua.edu.sumdu.j2se.lietunova.tasks;
+package ua.edu.sumdu.j2se.lietunova.tasks.model;
 
 public class TaskListFactory {
 
