@@ -10,7 +10,7 @@ import java.util.TreeMap;
 
 
 public class Tasks {
-    public static Iterable<Task> incoming(Iterable<Task> tasks, LocalDateTime start, LocalDateTime end) {
+    public static Iterable<Task> incoming(Iterable<Task> tasks, LocalDateTime start, LocalDateTime end) throws WrongArgumentException {
         if (start == null || end == null) {
             throw new NullPointerException("Time (start, end) cannot be null!");
         }

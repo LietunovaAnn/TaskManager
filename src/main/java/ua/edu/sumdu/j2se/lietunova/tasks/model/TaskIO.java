@@ -1,12 +1,15 @@
 package ua.edu.sumdu.j2se.lietunova.tasks.model;
 
 import com.google.gson.Gson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 public class TaskIO {
+    private final static Logger logger = LoggerFactory.getLogger(TaskIO.class);
     /**
      * Метод записує задачі із списку у потік у бінарному форматі.
      */
@@ -30,7 +33,7 @@ public class TaskIO {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("{}", e.getStackTrace());
         }
 
 
@@ -60,18 +63,18 @@ public class TaskIO {
                 tasks.add(task);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("{}", e.getStackTrace());
         }
     }
 
     /**
      * Метод записує задачі із списку у файл.
      */
-    public static void writeBinary(AbstractTaskList tasks, File file) throws IOException {
-        try (FileOutputStream fos = new FileOutputStream(file, true)) {
+    public static void writeBinary(AbstractTaskList tasks, File file) {
+        try (FileOutputStream fos = new FileOutputStream(file)) {
             write(tasks, fos);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("{}", e.getStackTrace());
         }
     }
 
@@ -82,7 +85,7 @@ public class TaskIO {
         try (FileInputStream fis = new FileInputStream(file)) {
             read(tasks, fis);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("{}", e.getStackTrace());
         }
     }
 
@@ -95,7 +98,7 @@ public class TaskIO {
             bw.write(new Gson().toJson(tasks));
             bw.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("{}", e.getStackTrace());
         }
     }
 
@@ -113,7 +116,7 @@ public class TaskIO {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("{}", e.getStackTrace());
         }
     }
 
@@ -121,10 +124,10 @@ public class TaskIO {
      * Метод записує задачі у файл у форматі JSON
      */
     public static void writeText(AbstractTaskList tasks, File file) {
-        try (FileWriter fw = new FileWriter(file, true)) {
+        try (FileWriter fw = new FileWriter(file)) {
             write(tasks, fw);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("{}", e.getStackTrace());
         }
     }
 
@@ -135,7 +138,7 @@ public class TaskIO {
         try (FileReader fr = new FileReader(file)) {
             read(tasks, fr);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("not find file {} {}", file, e);
         }
     }
 }
