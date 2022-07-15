@@ -14,17 +14,19 @@ import java.io.File;
 
 public class Main {
 
-	public static void main(String[] args) {
-		System.out.println("Task Manager was started ...");
-		AbstractTaskList taskList = new ArrayTaskList();
-		TaskIO.readText(taskList, new File("SaveTaskManager.txt"));
+    public static void main(String[] args) {
+        //    Notificator.displayTray();
+
+        System.out.println("Task Manager was started ...");
+        AbstractTaskList taskList = new ArrayTaskList();
+        TaskIO.readText(taskList, new File("SaveTaskManager.txt"));
 //		Notificator notificator = new Notificator(taskList);
 //		notificator.setDaemon(true);
 //		notificator.start();
-		View mainView = new MainView();
-		Controller mainController = new MainController(taskList, mainView);
-		mainController.process(null);
-		System.out.println("Task Manager was closed ...");
-		TaskIO.writeText(taskList, new File("SaveTaskManager.txt"));
-	}
+        View mainView = new MainView();
+        Controller mainController = new MainController(taskList, mainView);
+        mainController.process(null);
+        System.out.println("Task Manager was closed ...");
+        TaskIO.writeText(taskList, new File("SaveTaskManager.txt"));
+    }
 }

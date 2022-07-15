@@ -26,14 +26,11 @@ public class MainController extends Controller {
     @Override
     public int process(AbstractTaskList taskList) {
         int action = view.printInfo(taskList);
-        for (; ; ) {
+        while (action != FINISH_ACTION) {
             for (Controller controller : controllerList) {
                 if (controller.canProcess(action)) {
                     action = controller.process(this.taskList);
                 }
-            }
-            if (action == FINISH_ACTION) {
-                break;
             }
         }
         return FINISH_ACTION;

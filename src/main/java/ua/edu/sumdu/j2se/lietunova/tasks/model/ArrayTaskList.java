@@ -54,9 +54,9 @@ public class ArrayTaskList extends AbstractTaskList {
 
     @Override
     public Task getTask(int index) {
-        if (index >= sizeArray || index < 0) {
-            throw new IndexOutOfBoundsException("Index cannot be >= size array or negative!!");
-        }
+//        if (index >= sizeArray || index < 0) {
+//            throw new IndexOutOfBoundsException("Index cannot be >= size array or negative!!");
+//        }
         return arrayTaskLists[index];
     }
 

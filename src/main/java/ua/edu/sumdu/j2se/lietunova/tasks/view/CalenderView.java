@@ -15,19 +15,23 @@ public class CalenderView implements View {
 
     @Override
     public int printInfo(AbstractTaskList taskList) {
-        System.out.println("Chose necessary time interval: ");
-        LocalDateTime[] ldt;
-        ldt = MainView.checkEnteredStartEndLTD();
-
-        SortedMap<LocalDateTime, ArrayTaskList> calendarTaskView = Tasks.calendar(taskList, ldt[0], ldt[1]);
-        for (SortedMap.Entry<LocalDateTime, ArrayTaskList> entry : calendarTaskView.entrySet()) {
-            System.out.println(entry.getKey().format(DateTimeFormatter.ofPattern("dd MM uuuu HH:mm")) + ": " +
-                    entry.getValue().toString());
-        }
+        choiceCalender(taskList);
         System.out.println("If you want to back in main menu, enter any key.");
-        scanner.next();
+        scanner.nextLine();
         return Controller.MAIN_MENU_ACTION;
     }
 
+    public void choiceCalender(AbstractTaskList taskList) {
+        System.out.println("Chose necessary time interval: ");
+
+        LocalDateTime[] ldt;
+        ldt = UserScanner.checkEnteredStartEndLTD();
+
+        SortedMap<LocalDateTime, ArrayTaskList> calendarTaskView = Tasks.calendar(taskList, ldt[0], ldt[1]);
+        for (SortedMap.Entry<LocalDateTime, ArrayTaskList> entry : calendarTaskView.entrySet()) {
+            System.out.println(entry.getKey().format(DateTimeFormatter.ofPattern("dd MM YYYY HH:mm:ss")) + ": " +
+                    entry.getValue().toString());
+        }
+    }
 
 }

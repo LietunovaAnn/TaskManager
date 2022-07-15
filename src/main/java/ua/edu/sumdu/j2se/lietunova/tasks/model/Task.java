@@ -1,5 +1,7 @@
 package ua.edu.sumdu.j2se.lietunova.tasks.model;
 
+import ua.edu.sumdu.j2se.lietunova.tasks.view.UserScanner;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -113,9 +115,9 @@ public class Task implements Cloneable, Serializable {
      *             вона має стати такою, що не повторюється
      */
     public void setTime(LocalDateTime time) {
-        if (time == null) {
-            throw new IllegalArgumentException("Time cannot be null!");
-        }
+//        if (time == null) {
+//            throw new IllegalArgumentException("Time cannot be null!");
+//        }
         this.time = time;
         if (repeated) {
             repeated = false;
@@ -253,16 +255,18 @@ public class Task implements Cloneable, Serializable {
     @Override
     public String toString() {
         if (repeated) {
-            return "Task{" +
-                    "title='" + title + '\'' +
-                    ", startTime=" + startTime +
-                    ", endTime=" + endTime +
-                    ", repeatInterval=" + repeatInterval +
+            return "Task {" +
+                    "title = '" + title + '\'' +
+                    ", startTime = " + startTime.format(UserScanner.dTF) +
+                    ", endTime = " + endTime.format(UserScanner.dTF) +
+                    ", repeatInterval = " + repeatInterval +
+                    ", active = " + active +
                     '}';
         }
-        return "Task{" +
-                "title='" + title + '\'' +
-                ", time=" + time +
+        return "Task {" +
+                "title = '" + title + '\'' +
+                ", time = " + time.format(UserScanner.dTF) +
+                ", active = " + active +
                 '}';
     }
 
