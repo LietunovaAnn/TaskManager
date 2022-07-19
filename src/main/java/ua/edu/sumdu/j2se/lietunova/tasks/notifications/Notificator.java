@@ -1,34 +1,61 @@
 package ua.edu.sumdu.j2se.lietunova.tasks.notifications;
 
 
-import java.awt.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ua.edu.sumdu.j2se.lietunova.tasks.model.AbstractTaskList;
+import ua.edu.sumdu.j2se.lietunova.tasks.model.Task;
+import ua.edu.sumdu.j2se.lietunova.tasks.model.Tasks;
+import ua.edu.sumdu.j2se.lietunova.tasks.view.UserScanner;
 
-public class Notificator {
-    public static void displayTray() {
+import java.awt.*;
+import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.concurrent.TimeUnit;
+
+public class Notificator extends Thread {
+    private static final Logger logger = LoggerFactory.getLogger(Notificator.class);
+    AbstractTaskList taskList;
+
+    public Notificator(AbstractTaskList taskList) {
+        this.taskList = taskList;
+    }
+
+    public static void displayTray(String task) {
         try {
-            //Obtain only one instance of the SystemTray object
             SystemTray tray = SystemTray.getSystemTray();
 
-            // If you want to create an icon in the system tray to preview
             Image image = Toolkit.getDefaultToolkit().createImage("some-icon.png");
-            //Alternative (if the icon is on the classpath):
-            //Image image = Toolkit.getDefaultToolkit().createImage(getClass().getResource("icon.png"));
-
-            TrayIcon trayIcon = new TrayIcon(image, "Java AWT Tray Demo");
-            //Let the system resize the image if needed
-            trayIcon.setImageAutoSize(true);
-            //Set tooltip text for the tray icon
-            trayIcon.setToolTip("System tray icon demo");
+            TrayIcon trayIcon = new TrayIcon(image);
             tray.add(trayIcon);
 
-            // Display info notification:
-            trayIcon.displayMessage("Hello, World", "Java Notification Demo", TrayIcon.MessageType.INFO);
-            // Error:
-            // trayIcon.displayMessage("Hello, World", "Java Notification Demo", MessageType.ERROR);
-            // Warning:
-            // trayIcon.displayMessage("Hello, World", "Java Notification Demo", MessageType.WARNING);
-        } catch (Exception ex) {
-            System.err.print(ex);
+            trayIcon.displayMessage("Attention", task, TrayIcon.MessageType.INFO);
+        } catch (Exception e) {
+            logger.error("", e);
+        }
+    }
+
+    public void checkCalendar(AbstractTaskList taskList) {
+        SortedMap<LocalDateTime, Set<Task>> temp = Tasks.calendar(taskList, LocalDateTime.now(), LocalDateTime.now().plusMinutes(1));
+        for (SortedMap.Entry<LocalDateTime, Set<Task>> entry : temp.entrySet()) {
+            for (Task task : entry.getValue()) {
+                String message = "Tasks: '" + task.getTitle() + "' should start running at " + task.getTime().format(UserScanner.dTF);
+                displayTray(message);
+            }
+        }
+        try {
+            TimeUnit.MINUTES.sleep(1);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @Override
+    public void run() {
+        for (; ; ) {
+            checkCalendar(taskList);
         }
     }
 

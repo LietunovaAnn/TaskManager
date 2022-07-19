@@ -13,7 +13,7 @@ public class MainView implements View {
         System.out.println("5. View a calendar for a period of time.");
         System.out.println("6. Exit.");
         System.out.print("Choose activity (enter necessary number): ");
-        int value = UserScanner.readUserChoiceNumber(1, 6);
+        int value = UserScanner.checkChoosingRightNumber(1, 6);
         return value;
     }
 

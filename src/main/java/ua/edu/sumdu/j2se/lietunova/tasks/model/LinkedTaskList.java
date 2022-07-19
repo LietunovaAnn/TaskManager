@@ -25,9 +25,6 @@ public class LinkedTaskList extends AbstractTaskList {
 
     @Override
     public void add(Task task) {
-        if (task == null) {
-            throw new NullPointerException("Task can't be null!!!");
-        }
         Node newNode = new Node(task);
         if (sizeList == 0) {
             first = newNode;
@@ -47,9 +44,6 @@ public class LinkedTaskList extends AbstractTaskList {
 
     @Override
     public boolean remove(Task task) {
-        if (task == null) {
-            throw new NullPointerException("Task can't be null!!!");
-        }
         if (sizeList == 0) {
             return false;
         }

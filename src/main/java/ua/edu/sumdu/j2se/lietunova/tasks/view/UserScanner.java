@@ -12,33 +12,40 @@ import java.util.Scanner;
 public class UserScanner {
     public static final DateTimeFormatter dTF = DateTimeFormatter.ofPattern("dd MM yyyy HH:mm");
     private static final Scanner scanner = new Scanner(System.in);
-    private static final Logger logger = LoggerFactory.getLogger(MainView.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserScanner.class);
 
-    public static LocalDateTime checkEnteredLTD() throws DateTimeParseException {
+    static LocalDateTime readEnteredLTD() throws DateTimeParseException {
         String ldt = scanner.nextLine();
-        LocalDateTime correctLDT = LocalDateTime.parse(ldt, dTF);
-//        } catch (DateTimeParseException e) {
-//            System.out.println("Incorrect format. Please, enter the correct data and time (dd MM YYYY HH:mm)");
-//            logger.error(e.getParsedString());
-//            correctLDT = checkEnteredLTD();
-//        }
+        return LocalDateTime.parse(ldt, dTF);
+    }
+
+    public static LocalDateTime checkEnteredLTD() {
+        LocalDateTime correctLDT;
+        try {
+            correctLDT = readEnteredLTD();
+        } catch (DateTimeParseException e) {
+            System.out.println("Incorrect format. Please, enter the correct data and time (dd MM yyyy HH:mm)");
+            logger.error(e.getParsedString());
+            correctLDT = checkEnteredLTD();
+        }
         return correctLDT;
     }
 
+
     public static LocalDateTime[] checkEnteredStartEndLTD() {
-        System.out.print("Enter start data and time (dd MM YYYY HH:mm): ");
+        System.out.print("Enter start data and time (dd MM yyyy HH:mm): ");
         LocalDateTime startTimeLD = checkEnteredLTD();
-        System.out.print("Enter end data and time (dd MM YYYY HH:mm): ");
+        System.out.print("Enter end data and time (dd MM yyyy HH:mm): ");
         LocalDateTime endTimeLD = checkEnteredLTD();
         while (startTimeLD.isAfter(endTimeLD)) {
             System.out.print("Incorrect: endTimeLD > startTimeLD." +
-                    " Please, enter the correct end data and time (dd MM YYYY HH:mm): ");
+                    " Please, enter the correct end data and time (dd MM yyyy HH:mm): ");
             endTimeLD = checkEnteredLTD();
         }
         return new LocalDateTime[]{startTimeLD, endTimeLD};
     }
 
-    public static int checkChoosingRightNumber(int first, int last) throws WrongArgumentException, NumberFormatException {
+    private static int readUserChoiceNumber(int first, int last) throws WrongArgumentException, NumberFormatException {
         int enter = Integer.parseInt(scanner.nextLine());
         if (enter < first || enter > last) {
             throw new WrongArgumentException();
@@ -46,19 +53,19 @@ public class UserScanner {
         return enter;
     }
 
-    public static int readUserChoiceNumber(int first, int last) {
+    public static int checkChoosingRightNumber(int first, int last) {
         int value;
         try {
-            value = checkChoosingRightNumber(first, last);
+            value = readUserChoiceNumber(first, last);
         } catch (WrongArgumentException | NumberFormatException e) {
             System.out.println("Incorrect format. Please, enter the correct number.");
             logger.error("", e);
-            value = readUserChoiceNumber(first, last);
+            value = checkChoosingRightNumber(first, last);
         }
         return value;
     }
 
-    public static String checkChoosingYesNo() throws WrongArgumentException {
+    private static String readUserChoiceYesNo() throws WrongArgumentException {
         String enter = scanner.nextLine();
         if (!(enter.equals("yes") || enter.equals("no"))) {
             throw new WrongArgumentException();
@@ -66,14 +73,14 @@ public class UserScanner {
         return enter;
     }
 
-    public static String readUserChoiceYesNo() {
+    public static String checkChoosingYesNo() {
         String userChoice;
         try {
-            userChoice = checkChoosingYesNo();
+            userChoice = readUserChoiceYesNo();
         } catch (WrongArgumentException | NumberFormatException e) {
             System.out.println("Incorrect format. Please, enter the correct number.");
             logger.error("", e);
-            userChoice = readUserChoiceYesNo();
+            userChoice = checkChoosingYesNo();
         }
         return userChoice;
     }

@@ -13,8 +13,9 @@ public class AddTaskView implements View {
     @Override
     public int printInfo(AbstractTaskList taskList) {
         printRepeatNewTask(taskList);
-        System.out.println("New task was added.");
+        System.out.println("New task was added.\n");
         return Controller.MAIN_MENU_ACTION;
+
     }
 
     public String printNameNewTask() {
@@ -24,7 +25,7 @@ public class AddTaskView implements View {
 
     public void printRepeatNewTask(AbstractTaskList taskList) {
         System.out.print("Task is repeated? (yes , no): ");
-        String repeatedChoice = UserScanner.readUserChoiceYesNo();
+        String repeatedChoice = UserScanner.checkChoosingYesNo();
         if (repeatedChoice.equals("yes")) {
             taskList.add(printStartEndTimeNewTask());
         } else {
@@ -35,7 +36,7 @@ public class AddTaskView implements View {
     public Task printStartEndTimeNewTask() {
         LocalDateTime[] ldt = UserScanner.checkEnteredStartEndLTD();
         System.out.print("Enter interval: ");
-        int interval = Integer.parseInt(scanner.nextLine());
+        int interval = UserScanner.checkChoosingRightNumber(1, Integer.MAX_VALUE);
         Task newTaskRepeat = new Task(printNameNewTask(), ldt[0], ldt[1], interval);
         newTaskRepeat.setActive(printActiveNewTask());
         return newTaskRepeat;
@@ -52,7 +53,7 @@ public class AddTaskView implements View {
     public boolean printActiveNewTask() {
         boolean active = false;
         System.out.print("Task is active? (yes , no): ");
-        String activeChoice = UserScanner.readUserChoiceYesNo();
+        String activeChoice = UserScanner.checkChoosingYesNo();
         if (activeChoice.equals("yes")) {
             active = true;
         }

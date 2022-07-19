@@ -13,24 +13,31 @@ public class TaskListView implements View {
         for (int i = 1; i <= taskList.size(); i++) {
             System.out.println(i + ". " + taskList.getTask(i - 1));
         }
+//        } else {
+//            System.out.println("Task list is empty");
+//        }
     }
 
-    public void showSelectedTask(AbstractTaskList taskList) {
+    public static void showSelectedTask(AbstractTaskList taskList) {
         System.out.print("Do you want to see a specific task? (yes , no): ");
-        String userChoice = UserScanner.readUserChoiceYesNo();
+        String userChoice = UserScanner.checkChoosingYesNo();
         if (userChoice.equals("yes")) {
             System.out.println("Enter task index: ");
-            int index = UserScanner.readUserChoiceNumber(1, taskList.size());
+            int index = UserScanner.checkChoosingRightNumber(1, taskList.size());
             System.out.println(taskList.getTask(index - 1));
         }
     }
 
     @Override
     public int printInfo(AbstractTaskList taskList) {
-        showAllTasks(taskList);
-        showSelectedTask(taskList);
-        System.out.println("If you want to back in main menu, enter any key.");
-        scanner.nextLine();
+        if (taskList.size() == 0) {
+            System.out.println("Task list is empty");
+        } else {
+            showAllTasks(taskList);
+            showSelectedTask(taskList);
+            System.out.println("If you want to back in main menu, enter any key.");
+            scanner.nextLine();
+        }
         return Controller.MAIN_MENU_ACTION;
     }
 }

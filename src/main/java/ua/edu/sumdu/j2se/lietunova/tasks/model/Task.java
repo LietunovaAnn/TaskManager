@@ -22,12 +22,6 @@ public class Task implements Cloneable, Serializable {
      * @param time  час виконання завдання
      */
     public Task(String title, LocalDateTime time) {
-        if (time == null) {
-            throw new IllegalArgumentException("Parameter  time cannot be null!");
-        }
-        if (title == null) {
-            throw new NullPointerException("Parameter title cannot be null!");
-        }
         this.title = title;
         this.time = time;
         repeated = false;
@@ -43,9 +37,6 @@ public class Task implements Cloneable, Serializable {
      * @param interval інтервал виконання завдання
      */
     public Task(String title, LocalDateTime start, LocalDateTime end, int interval) {
-        if (title == null || start == null || end == null) {
-            throw new NullPointerException("Parameter title or time (start, end) cannot be null!");
-        }
         if (interval <= 0) {
             throw new IllegalArgumentException("Interval have to be >= 0!");
         }
@@ -54,6 +45,7 @@ public class Task implements Cloneable, Serializable {
         this.endTime = end;
         this.repeatInterval = interval;
         repeated = true;
+
     }
 
     /**
@@ -71,9 +63,6 @@ public class Task implements Cloneable, Serializable {
      * @param title значення не повинно бути порожнім або null
      */
     public void setTitle(String title) {
-        if (title == null) {
-            throw new NullPointerException("Parameter title cannot be null!");
-        }
         this.title = title;
     }
 
@@ -115,9 +104,6 @@ public class Task implements Cloneable, Serializable {
      *             вона має стати такою, що не повторюється
      */
     public void setTime(LocalDateTime time) {
-//        if (time == null) {
-//            throw new IllegalArgumentException("Time cannot be null!");
-//        }
         this.time = time;
         if (repeated) {
             repeated = false;
@@ -171,9 +157,6 @@ public class Task implements Cloneable, Serializable {
      * @param interval інтервал виконання завдання
      */
     public void setTime(LocalDateTime start, LocalDateTime end, int interval) {
-        if (start == null || end == null) {
-            throw new IllegalArgumentException("Time (start, end) cannot be null!");
-        }
         if (interval <= 0) {
             throw new IllegalArgumentException("Interval have to be >= 0!");
         }
@@ -203,9 +186,6 @@ public class Task implements Cloneable, Serializable {
      * метод повертає null
      */
     public LocalDateTime nextTimeAfter(LocalDateTime current) {
-        if (current == null) {
-            throw new NullPointerException("Parameter current cannot be null!");
-        }
         if (active) {
             if (repeated) {
                 LocalDateTime nextStartTime = startTime;

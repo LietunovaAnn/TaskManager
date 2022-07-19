@@ -19,9 +19,6 @@ public class ArrayTaskList extends AbstractTaskList {
 
     @Override
     public void add(Task task) {
-        if (task == null) {
-            throw new NullPointerException("Task can't be null!!!");
-        }
         if (sizeArray == 0) {
             arrayTaskLists = new Task[sizeArray + 1];
             arrayTaskLists[0] = task;
@@ -34,9 +31,6 @@ public class ArrayTaskList extends AbstractTaskList {
 
     @Override
     public boolean remove(Task task) {
-        if (task == null) {
-            throw new NullPointerException("Task can't be null!!!");
-        }
         for (int i = 0; i < arrayTaskLists.length; i++) {
             if (arrayTaskLists[i].equals(task)) {
                 arrayTaskLists = ArrayUtils.removeElement(arrayTaskLists, arrayTaskLists[i]);
@@ -54,9 +48,6 @@ public class ArrayTaskList extends AbstractTaskList {
 
     @Override
     public Task getTask(int index) {
-//        if (index >= sizeArray || index < 0) {
-//            throw new IndexOutOfBoundsException("Index cannot be >= size array or negative!!");
-//        }
         return arrayTaskLists[index];
     }
 
@@ -75,7 +66,7 @@ public class ArrayTaskList extends AbstractTaskList {
             @Override
             public void remove() {
                 if (current < 0) {
-                    throw new IllegalStateException();
+                    throw new IllegalStateException("Method 'next' is not called!");
                 }
                 ArrayTaskList.this.remove(getTask(current));
                 position--;
@@ -113,14 +104,12 @@ public class ArrayTaskList extends AbstractTaskList {
     }
 
     @Override
-    public ArrayTaskList clone() {
-        try {
-            ArrayTaskList result = (ArrayTaskList) super.clone();
-            result.arrayTaskLists = arrayTaskLists.clone();
-            return result;
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError();
-        }
+    public ArrayTaskList clone() throws CloneNotSupportedException {
+
+        ArrayTaskList result = (ArrayTaskList) super.clone();
+        result.arrayTaskLists = arrayTaskLists.clone();
+        return result;
+
     }
 
     @Override
