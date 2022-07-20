@@ -16,7 +16,6 @@ public abstract class Controller {
     protected View view;
     protected int actionToPerform = 0;
 
-
     public Controller(View view, int actionToPerform) {
         this.view = view;
         this.actionToPerform = actionToPerform;

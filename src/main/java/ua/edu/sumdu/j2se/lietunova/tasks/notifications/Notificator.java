@@ -32,7 +32,7 @@ public class Notificator extends Thread {
 
             trayIcon.displayMessage("Attention", task, TrayIcon.MessageType.INFO);
         } catch (Exception e) {
-            logger.error("", e);
+            logger.error(e.getMessage());
         }
     }
 

@@ -14,7 +14,7 @@ public class UserScanner {
     private static final Scanner scanner = new Scanner(System.in);
     private static final Logger logger = LoggerFactory.getLogger(UserScanner.class);
 
-    static LocalDateTime readEnteredLTD() throws DateTimeParseException {
+    private static LocalDateTime readEnteredLTD() throws DateTimeParseException {
         String ldt = scanner.nextLine();
         return LocalDateTime.parse(ldt, dTF);
     }

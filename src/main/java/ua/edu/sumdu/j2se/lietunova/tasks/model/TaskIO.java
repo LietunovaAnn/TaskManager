@@ -33,10 +33,8 @@ public class TaskIO {
                 }
             }
         } catch (IOException e) {
-            logger.error("{}", e);
+            logger.error("Problem with OutputStream {}", out, e);
         }
-
-
     }
 
     /**
@@ -63,7 +61,7 @@ public class TaskIO {
                 tasks.add(task);
             }
         } catch (IOException e) {
-            logger.error("", e);
+            logger.error("Problem with InputStream {}", in, e);
         }
     }
 
@@ -74,7 +72,7 @@ public class TaskIO {
         try (FileOutputStream fos = new FileOutputStream(file)) {
             write(tasks, fos);
         } catch (IOException e) {
-            logger.error("", e);
+            logger.error("Not find file {}", file, e);
         }
     }
 
@@ -85,7 +83,7 @@ public class TaskIO {
         try (FileInputStream fis = new FileInputStream(file)) {
             read(tasks, fis);
         } catch (IOException e) {
-            logger.error("", e);
+            logger.error("Not find file {}", file, e);
         }
     }
 
@@ -98,7 +96,7 @@ public class TaskIO {
             bw.write(new Gson().toJson(tasks));
             bw.flush();
         } catch (IOException e) {
-            logger.error("", e);
+            logger.error("Problem with Writer {}", out, e);
         }
     }
 
@@ -116,7 +114,7 @@ public class TaskIO {
                 }
             }
         } catch (IOException e) {
-            logger.error("", e);
+            logger.error("Problem with Reader {}", in, e);
         }
     }
 
@@ -127,7 +125,7 @@ public class TaskIO {
         try (FileWriter fw = new FileWriter(file)) {
             write(tasks, fw);
         } catch (IOException e) {
-            logger.error("", e);
+            logger.error("Not find file {}", file, e);
         }
     }
 
@@ -138,7 +136,7 @@ public class TaskIO {
         try (FileReader fr = new FileReader(file)) {
             read(tasks, fr);
         } catch (IOException e) {
-            logger.error("not find file {} ", file, e);
+            logger.error("Not find file {} ", file, e);
         }
     }
 }
