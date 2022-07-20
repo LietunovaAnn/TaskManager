@@ -25,7 +25,7 @@ public class UserScanner {
             correctLDT = readEnteredLTD();
         } catch (DateTimeParseException e) {
             System.out.println("Incorrect format. Please, enter the correct data and time (dd MM yyyy HH:mm)");
-            logger.error(e.getParsedString());
+            logger.error("Incorrect format LocalDateTime ", e);
             correctLDT = checkEnteredLTD();
         }
         return correctLDT;
@@ -59,7 +59,7 @@ public class UserScanner {
             value = readUserChoiceNumber(first, last);
         } catch (WrongArgumentException | NumberFormatException e) {
             System.out.println("Incorrect format. Please, enter the correct number.");
-            logger.error("", e);
+            logger.error("Incorrect format ", e);
             value = checkChoosingRightNumber(first, last);
         }
         return value;
@@ -79,7 +79,7 @@ public class UserScanner {
             userChoice = readUserChoiceYesNo();
         } catch (WrongArgumentException | NumberFormatException e) {
             System.out.println("Incorrect format. Please, enter the correct number.");
-            logger.error("", e);
+            logger.error("Incorrect format ", e);
             userChoice = checkChoosingYesNo();
         }
         return userChoice;

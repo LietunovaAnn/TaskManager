@@ -31,8 +31,8 @@ public class Notificator extends Thread {
             tray.add(trayIcon);
 
             trayIcon.displayMessage("Attention", task, TrayIcon.MessageType.INFO);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
+        } catch (AWTException e) {
+            logger.error("method has failed, file {}", task, e);
         }
     }
 
@@ -47,7 +47,7 @@ public class Notificator extends Thread {
         try {
             TimeUnit.MINUTES.sleep(1);
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            logger.error("method has failed ", e);
         }
 
     }
