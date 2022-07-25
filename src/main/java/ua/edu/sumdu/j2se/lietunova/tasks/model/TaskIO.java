@@ -5,6 +5,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
@@ -69,7 +72,7 @@ public class TaskIO {
      * Метод записує задачі із списку у файл.
      */
     public static void writeBinary(AbstractTaskList tasks, File file) {
-        try (FileOutputStream fos = new FileOutputStream(file)) {
+        try (OutputStream fos = Files.newOutputStream(Paths.get(String.valueOf(file)))) {
             write(tasks, fos);
         } catch (IOException e) {
             logger.error("Not find file {}", file, e);
@@ -80,7 +83,7 @@ public class TaskIO {
      * Метод зчитує задачі із файлу у список задач.
      */
     public static void readBinary(AbstractTaskList tasks, File file) {
-        try (FileInputStream fis = new FileInputStream(file)) {
+        try (InputStream fis = Files.newInputStream(Paths.get(String.valueOf(file)))) {
             read(tasks, fis);
         } catch (IOException e) {
             logger.error("Not find file {}", file, e);
@@ -122,7 +125,7 @@ public class TaskIO {
      * Метод записує задачі у файл у форматі JSON
      */
     public static void writeText(AbstractTaskList tasks, File file) {
-        try (FileWriter fw = new FileWriter(file)) {
+        try (BufferedWriter fw = Files.newBufferedWriter(Paths.get(String.valueOf(file)), StandardCharsets.UTF_8)) {
             write(tasks, fw);
         } catch (IOException e) {
             logger.error("Not find file {}", file, e);
@@ -133,7 +136,7 @@ public class TaskIO {
      * Метод зчитує задачі із файлу.
      */
     public static void readText(AbstractTaskList tasks, File file) {
-        try (FileReader fr = new FileReader(file)) {
+        try (BufferedReader fr = Files.newBufferedReader(Paths.get(String.valueOf(file)), StandardCharsets.UTF_8)) {
             read(tasks, fr);
         } catch (IOException e) {
             logger.error("Not find file {} ", file, e);

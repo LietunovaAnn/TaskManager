@@ -10,12 +10,10 @@ public class TaskListView implements View {
 
     public static void showAllTasks(AbstractTaskList taskList) {
         System.out.println("View all tasks: ");
+
         for (int i = 1; i <= taskList.size(); i++) {
             System.out.println(i + ". " + taskList.getTask(i - 1));
         }
-//        } else {
-//            System.out.println("Task list is empty");
-//        }
     }
 
     public static void showSelectedTask(AbstractTaskList taskList) {

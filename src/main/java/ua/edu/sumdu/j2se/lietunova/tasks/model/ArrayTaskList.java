@@ -25,6 +25,7 @@ public class ArrayTaskList extends AbstractTaskList {
         } else {
             arrayTaskLists = Arrays.copyOf(arrayTaskLists, arrayTaskLists.length + 1);
             arrayTaskLists[arrayTaskLists.length - 1] = task;
+            Arrays.sort(arrayTaskLists);
         }
         sizeArray++;
     }
@@ -119,4 +120,5 @@ public class ArrayTaskList extends AbstractTaskList {
                 ", sizeArray=" + sizeArray +
                 '}';
     }
+
 }

@@ -35,6 +35,52 @@
                     </includes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>3.16.0</version>
+                <configuration>
+                    <rulesets>
+                        <ruleset>ruleset.xml</ruleset>
+                    </rulesets>
+                    <maxAllowedViolations>0</maxAllowedViolations>
+                    <failurePriority>1</failurePriority>
+                    <minimumPriority>3</minimumPriority>
+                    <failOnViolation>false</failOnViolation>
+                    <includeTests>false</includeTests>
+                    <printFailingErrors>true</printFailingErrors>
+                    <skipEmptyReport>true</skipEmptyReport>
+                    <showPmdLog>false</showPmdLog>
+                    <linkXRef>false</linkXRef>
+                    <!--suppress UnresolvedMavenProperty -->
+                    <targetJdk>${project.build.targetLevel}</targetJdk>
+                    <outputEncoding>${project.build.sourceEncoding}</outputEncoding>
+                    <outputDirectory>${project.build.directory}${file.separator}pmd</outputDirectory>
+                    <excludeRoots>
+                        <excludeRoot>${project.build.directory}</excludeRoot>
+                    </excludeRoots>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>net.sourceforge.pmd</groupId>
+                        <artifactId>pmd-core</artifactId>
+                        <version>6.43.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>net.sourceforge.pmd</groupId>
+                        <artifactId>pmd-java</artifactId>
+                        <version>6.43.0</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     <dependencies>

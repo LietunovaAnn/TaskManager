@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Task implements Cloneable, Serializable {
+public class Task implements Cloneable, Serializable, Comparable {
     private String title;
     private LocalDateTime time;
     private LocalDateTime startTime;
@@ -250,4 +250,9 @@ public class Task implements Cloneable, Serializable {
                 '}';
     }
 
+    @Override
+    public int compareTo(Object o) {
+        Task taskO = (Task) o;
+        return getTime().compareTo(taskO.getTime());
+    }
 }
