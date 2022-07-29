@@ -75,7 +75,7 @@ public class TaskIO {
         try (OutputStream fos = Files.newOutputStream(Paths.get(String.valueOf(file)))) {
             write(tasks, fos);
         } catch (IOException e) {
-            logger.error("Not find file {}", file, e);
+            logger.error("Problem with file {}", file, e);
         }
     }
 
@@ -86,7 +86,7 @@ public class TaskIO {
         try (InputStream fis = Files.newInputStream(Paths.get(String.valueOf(file)))) {
             read(tasks, fis);
         } catch (IOException e) {
-            logger.error("Not find file {}", file, e);
+            logger.error("Problem with file {}", file, e);
         }
     }
 
@@ -128,7 +128,7 @@ public class TaskIO {
         try (BufferedWriter fw = Files.newBufferedWriter(Paths.get(String.valueOf(file)), StandardCharsets.UTF_8)) {
             write(tasks, fw);
         } catch (IOException e) {
-            logger.error("Not find file {}", file, e);
+            logger.error("Problem with file {}", file, e);
         }
     }
 
@@ -139,7 +139,7 @@ public class TaskIO {
         try (BufferedReader fr = Files.newBufferedReader(Paths.get(String.valueOf(file)), StandardCharsets.UTF_8)) {
             read(tasks, fr);
         } catch (IOException e) {
-            logger.error("Not find file {} ", file, e);
+            logger.error("Problem with file {} ", file, e);
         }
     }
 }
